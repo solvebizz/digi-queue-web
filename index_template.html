@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A digital queue management application.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="DigiQueue">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <title>DigiQueue</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    html { height: 100%; }
+    body {
+      margin: 0;
+      min-height: 100%;
+      background-color: #e3f2fd;
+      background-image: linear-gradient(180deg, #e3f2fd 0%, #bbdefb 100%);
+      font-family: 'Roboto', sans-serif;
+    }
+    #loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #2196f3;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <div class="spinner"></div>
+    <h2 style="color: #1976d2; margin: 0;">DigiQueue</h2>
+    <p style="color: #666; margin: 10px 0 0 0;">Loading...</p>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-storage-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "$FIREBASE_WEB_API_KEY",
+      authDomain: "$FIREBASE_AUTH_DOMAIN",
+      projectId: "$FIREBASE_PROJECT_ID",
+      storageBucket: "$FIREBASE_STORAGE_BUCKET",
+      messagingSenderId: "$FIREBASE_MESSAGING_SENDER_ID",
+      appId: "$FIREBASE_WEB_APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    // Handle dynamic link redirection
+    const shopId = window.location.pathname.split('/')[2];
+    if (shopId && window.location.pathname.startsWith('/shop/')) {
+      const appUrl = `digiqueue://shop/${shopId}`;
+      const playStoreUrl = `https://play.google.com/store/apps/details?id=com.solvebizz.digiqueue`;
+      
+      window.location.href = appUrl;
+      setTimeout(() => {
+        window.location.href = playStoreUrl;
+      }, 2000);
+    }
+  </script>
+
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
